@@ -1,0 +1,97 @@
+{
+  "seed": 20260929,
+  "blocks": 10,
+  "handsPerBlock": 100,
+  "results": [
+    {
+      "depthBB": 20,
+      "style": "station",
+      "hands": 2000,
+      "bbPer100": 191.05,
+      "indicative95PercentInterval": [
+        156.03,
+        226.07
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 7011,
+      "candidateRaises": 2500,
+      "candidateAllIns": 8
+    },
+    {
+      "depthBB": 20,
+      "style": "pressure",
+      "hands": 2000,
+      "bbPer100": 132.24,
+      "indicative95PercentInterval": [
+        95.85,
+        168.62
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 5179,
+      "candidateRaises": 992,
+      "candidateAllIns": 17
+    },
+    {
+      "depthBB": 100,
+      "style": "station",
+      "hands": 2000,
+      "bbPer100": 267.75,
+      "indicative95PercentInterval": [
+        235.64,
+        299.86
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 7340,
+      "candidateRaises": 2793,
+      "candidateAllIns": 0
+    },
+    {
+      "depthBB": 100,
+      "style": "pressure",
+      "hands": 2000,
+      "bbPer100": 421.29,
+      "indicative95PercentInterval": [
+        323.19,
+        519.4
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 5503,
+      "candidateRaises": 1105,
+      "candidateAllIns": 5
+    },
+    {
+      "depthBB": 200,
+      "style": "station",
+      "hands": 2000,
+      "bbPer100": 267.75,
+      "indicative95PercentInterval": [
+        235.64,
+        299.86
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 7340,
+      "candidateRaises": 2793,
+      "candidateAllIns": 0
+    },
+    {
+      "depthBB": 200,
+      "style": "pressure",
+      "hands": 2000,
+      "bbPer100": 350.68,
+      "indicative95PercentInterval": [
+        236.69,
+        464.68
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 5317,
+      "candidateRaises": 1009,
+      "candidateAllIns": 1
+    }
+  ]
+}

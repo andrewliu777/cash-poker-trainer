@@ -1,0 +1,460 @@
+{
+  "spots": [
+    {
+      "depthBB": 20,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1170,
+        "check": 0,
+        "call": 0,
+        "raise": 156,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 20,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 884,
+        "check": 0,
+        "call": 0,
+        "raise": 442,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 20,
+      "spot": "heads-up-sb",
+      "combos": 1326,
+      "actions": {
+        "fold": 452,
+        "check": 0,
+        "call": 316,
+        "raise": 558,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.5,
+      "raiseToBBRange": [
+        2.5,
+        2.5
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 20,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 569,
+        "call": 0,
+        "raise": 607,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 5.7,
+      "raiseToBBRange": [
+        2.7,
+        6.75
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 40,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1170,
+        "check": 0,
+        "call": 0,
+        "raise": 156,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 40,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 884,
+        "check": 0,
+        "call": 0,
+        "raise": 442,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 40,
+      "spot": "heads-up-sb",
+      "combos": 1326,
+      "actions": {
+        "fold": 452,
+        "check": 0,
+        "call": 316,
+        "raise": 558,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.5,
+      "raiseToBBRange": [
+        2.5,
+        2.5
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 40,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 569,
+        "call": 0,
+        "raise": 607,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 4.36,
+      "raiseToBBRange": [
+        2.7,
+        4.95
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 60,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1170,
+        "check": 0,
+        "call": 0,
+        "raise": 156,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 60,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 884,
+        "check": 0,
+        "call": 0,
+        "raise": 442,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 60,
+      "spot": "heads-up-sb",
+      "combos": 1326,
+      "actions": {
+        "fold": 280,
+        "check": 0,
+        "call": 488,
+        "raise": 558,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.5,
+      "raiseToBBRange": [
+        2.5,
+        2.5
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 60,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 569,
+        "call": 0,
+        "raise": 607,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 4.36,
+      "raiseToBBRange": [
+        2.7,
+        4.95
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 100,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1170,
+        "check": 0,
+        "call": 0,
+        "raise": 156,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 100,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 884,
+        "check": 0,
+        "call": 0,
+        "raise": 442,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 100,
+      "spot": "heads-up-sb",
+      "combos": 1326,
+      "actions": {
+        "fold": 280,
+        "check": 0,
+        "call": 488,
+        "raise": 558,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.5,
+      "raiseToBBRange": [
+        2.5,
+        2.5
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 100,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 569,
+        "call": 0,
+        "raise": 607,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 4.36,
+      "raiseToBBRange": [
+        2.7,
+        4.95
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 150,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1170,
+        "check": 0,
+        "call": 0,
+        "raise": 156,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 150,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 884,
+        "check": 0,
+        "call": 0,
+        "raise": 442,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 150,
+      "spot": "heads-up-sb",
+      "combos": 1326,
+      "actions": {
+        "fold": 280,
+        "check": 0,
+        "call": 488,
+        "raise": 558,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.5,
+      "raiseToBBRange": [
+        2.5,
+        2.5
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 150,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 569,
+        "call": 0,
+        "raise": 607,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 4.36,
+      "raiseToBBRange": [
+        2.7,
+        4.95
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 200,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1170,
+        "check": 0,
+        "call": 0,
+        "raise": 156,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 200,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 884,
+        "check": 0,
+        "call": 0,
+        "raise": 442,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2,
+      "raiseToBBRange": [
+        2.2,
+        2.2
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 200,
+      "spot": "heads-up-sb",
+      "combos": 1326,
+      "actions": {
+        "fold": 280,
+        "check": 0,
+        "call": 488,
+        "raise": 558,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.5,
+      "raiseToBBRange": [
+        2.5,
+        2.5
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 200,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 569,
+        "call": 0,
+        "raise": 607,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 4.36,
+      "raiseToBBRange": [
+        2.7,
+        4.95
+      ],
+      "invalidExamples": []
+    }
+  ]
+}

@@ -1,0 +1,639 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="Cash Poker Trainer">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="theme-color" content="#2e426b" />
+	<meta name="robots" content="noindex, nofollow">
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://*.firebaseapp.com; font-src 'self'; img-src 'self' data: blob:; script-src 'self' https://www.gstatic.com; frame-src https://*.firebaseapp.com https://accounts.google.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.firebaseapp.com">
+
+	<!-- SEO -->
+	<meta property="og:description"
+		content="Cash Poker Trainer is an unofficial adaptation of Poker by Tehes (Tino Sabetta) for Texas Hold'em practice.">
+
+	<title>Cash Poker Trainer · Unofficial adaptation</title>
+
+	<link rel="apple-touch-icon" href="icons/180x180.png" />
+	<link rel="icon" href="icons/favicon.png" type="image/png" sizes="32x32">
+	<link rel="icon" href="icons/app-icon.svg" type="image/svg+xml">
+	<link rel="manifest" href="manifest.json">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<div id="local-file-help" class="local-file-help hidden">
+		<div>
+			<h2>Open from a local address</h2>
+			<p>This browser blocks the game scripts from a <code>file://</code> address, so Menu and the table cannot work.</p>
+			<p>Double-click <strong>start-local.command</strong> in this folder. Keep the Terminal window open while playing.</p>
+		</div>
+	</div>
+	<header class="table-header">
+		<div class="table-header-copy">
+			<span class="table-eyebrow">CASH POKER TRAINER</span>
+			<span class="table-origin-credit">Unofficial adaptation of <a href="https://github.com/Tehes/poker">Poker by Tehes</a></span>
+			<div id="cash-status" class="cash-status hidden" aria-live="polite"></div>
+			<div id="practice-context" class="practice-context hidden"></div>
+		</div>
+		<div class="table-menu-wrap">
+			<button type="button" id="table-menu-button" aria-expanded="false" aria-controls="table-menu">
+				<span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+				Menu
+			</button>
+			<nav id="table-menu" class="table-menu hidden" aria-label="Table tools">
+				<div id="menu-start-tools" class="menu-section">
+					<span class="menu-heading">Play mode</span>
+					<button type="button" id="watch-bots-button" class="menu-link">Watch 6 bots</button>
+				</div>
+				<div class="menu-section">
+					<span class="menu-heading">Review</span>
+					<button type="button" id="cash-last-hand-button" class="menu-link" name="button">Hand history &amp; replay</button>
+					<button type="button" id="stats-button" class="menu-link hidden" name="button">Statistics</button>
+					<button type="button" id="log-button" class="menu-link hidden" name="button">Action log</button>
+				</div>
+				<div id="menu-session-tools" class="menu-section hidden">
+					<span class="menu-heading">Session</span>
+					<button type="button" id="cash-top-up-button" class="hidden" name="button">Top up</button>
+					<button type="button" id="cash-pause-button" class="hidden" name="button">Pause after hand</button>
+					<button type="button" id="cash-end-button" class="menu-danger hidden" name="button">End session</button>
+					<button type="button" id="practice-return-button" class="menu-link hidden">Return to free table</button>
+					<div id="end-session-confirm" class="session-confirm hidden">
+						<p id="end-session-confirm-text">End this session? Completed hands will stay saved.</p>
+						<div>
+							<button type="button" id="end-session-cancel-button">Keep playing</button>
+							<button type="button" id="end-session-confirm-button">End session</button>
+						</div>
+					</div>
+				</div>
+				<div id="menu-table-tools" class="menu-section">
+					<span class="menu-heading">Table</span>
+					<button type="button" id="instructions-button" class="menu-link" name="button">How to play</button>
+				</div>
+				<div class="menu-section">
+					<span class="menu-heading">Preferences</span>
+					<fieldset class="menu-setting">
+						<legend>Bot pace</legend>
+						<div class="menu-choice">
+							<label><input id="bot-pace-natural" type="radio" name="bot-pace" value="natural"><span>Natural</span></label>
+							<label><input id="bot-pace-instant" type="radio" name="bot-pace" value="instant"><span>Instant</span></label>
+						</div>
+					</fieldset>
+					<fieldset class="menu-setting">
+						<legend>Sound</legend>
+						<div class="menu-choice">
+							<label><input id="sound-on" type="radio" name="table-sound" value="on"><span>On</span></label>
+							<label><input id="sound-off" type="radio" name="table-sound" value="off"><span>Off</span></label>
+						</div>
+					</fieldset>
+				</div>
+				<div id="account-menu" class="menu-section hidden">
+					<span class="menu-heading">Account</span>
+					<p id="account-status" class="account-status"></p>
+					<button type="button" id="account-sync-button">Sync now</button>
+					<button type="button" id="account-use-cloud-button" class="hidden">Use cloud session</button>
+					<button type="button" id="account-keep-local-button" class="hidden">Keep this session</button>
+					<button type="button" id="account-import-button">Import older local data</button>
+					<button type="button" id="account-sign-out-button">Sign out</button>
+				</div>
+			</nav>
+		</div>
+	</header>
+	<main>
+		<div class="seat" data-rotation="0">
+			<div class="hole-cards">
+				<img class="card" src="cards/1B.svg">
+				<img class="card" src="cards/1B.svg">
+				<div class="qr hidden">
+					<a class="qr-link" target="_blank" rel="noopener noreferrer" title="Open player view"></a>
+					<a class="remote-table-link hidden" target="_blank" rel="noopener noreferrer"
+						title="Open remote table">join via Link</a>
+				</div>
+				<img class="rotate" src="icons/rotate.svg">
+				<img class="blind-icons hidden dealer" src="icons/dealer.svg">
+				<img class="blind-icons hidden small-blind" src="icons/small-blind.svg">
+				<img class="blind-icons hidden big-blind" src="icons/big-blind.svg">
+				<img class="close" src="icons/close.svg">
+				<div class="winner-reaction hidden"></div>
+				<div class="pill win-probability hidden"></div>
+				<div class="pill hand-strength hidden"></div>
+			</div>
+			<h3 contenteditable="true"></h3>
+			<div class="chips">
+				<div class="stack-visual">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 0;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 1;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 2;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 3;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 4;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 5;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 6;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 7;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 8;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 9;">
+				</div>
+				<div class="stack-values">
+					<div class="total">2000</div>
+					<div class="bet">0</div>
+				</div>
+			</div>
+		</div>
+		<div class="seat" data-rotation="0">
+			<div class="hole-cards">
+				<img class="card" src="cards/1B.svg">
+				<img class="card" src="cards/1B.svg">
+				<div class="qr hidden">
+					<a class="qr-link" target="_blank" rel="noopener noreferrer" title="Open player view"></a>
+					<a class="remote-table-link hidden" target="_blank" rel="noopener noreferrer"
+						title="Open remote table">join via Link</a>
+				</div>
+				<img class="rotate" src="icons/rotate.svg">
+				<img class="blind-icons hidden dealer" src="icons/dealer.svg">
+				<img class="blind-icons hidden small-blind" src="icons/small-blind.svg">
+				<img class="blind-icons hidden big-blind" src="icons/big-blind.svg">
+				<img class="close" src="icons/close.svg">
+				<div class="winner-reaction hidden"></div>
+				<div class="pill win-probability hidden"></div>
+				<div class="pill hand-strength hidden"></div>
+			</div>
+			<h3 contenteditable="true"></h3>
+			<div class="chips">
+				<div class="stack-visual">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 0;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 1;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 2;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 3;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 4;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 5;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 6;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 7;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 8;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 9;">
+				</div>
+				<div class="stack-values">
+					<div class="total">2000</div>
+					<div class="bet">0</div>
+				</div>
+			</div>
+		</div>
+		<div class="seat" data-rotation="0">
+			<div class="hole-cards">
+				<img class="card" src="cards/1B.svg">
+				<img class="card" src="cards/1B.svg">
+				<div class="qr hidden">
+					<a class="qr-link" target="_blank" rel="noopener noreferrer" title="Open player view"></a>
+					<a class="remote-table-link hidden" target="_blank" rel="noopener noreferrer"
+						title="Open remote table">join via Link</a>
+				</div>
+				<img class="rotate" src="icons/rotate.svg">
+				<img class="blind-icons hidden dealer" src="icons/dealer.svg">
+				<img class="blind-icons hidden small-blind" src="icons/small-blind.svg">
+				<img class="blind-icons hidden big-blind" src="icons/big-blind.svg">
+				<img class="close" src="icons/close.svg">
+				<div class="winner-reaction hidden"></div>
+				<div class="pill win-probability hidden"></div>
+				<div class="pill hand-strength hidden"></div>
+			</div>
+			<h3 contenteditable="true"></h3>
+			<div class="chips">
+				<div class="stack-visual">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 0;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 1;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 2;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 3;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 4;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 5;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 6;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 7;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 8;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 9;">
+				</div>
+				<div class="stack-values">
+					<div class="total">2000</div>
+					<div class="bet">0</div>
+				</div>
+			</div>
+		</div>
+		<div class="seat" data-rotation="0">
+			<div class="hole-cards">
+				<img class="card" src="cards/1B.svg">
+				<img class="card" src="cards/1B.svg">
+				<div class="qr hidden">
+					<a class="qr-link" target="_blank" rel="noopener noreferrer" title="Open player view"></a>
+					<a class="remote-table-link hidden" target="_blank" rel="noopener noreferrer"
+						title="Open remote table">join via Link</a>
+				</div>
+				<img class="rotate" src="icons/rotate.svg">
+				<img class="blind-icons hidden dealer" src="icons/dealer.svg">
+				<img class="blind-icons hidden small-blind" src="icons/small-blind.svg">
+				<img class="blind-icons hidden big-blind" src="icons/big-blind.svg">
+				<img class="close" src="icons/close.svg">
+				<div class="winner-reaction hidden"></div>
+				<div class="pill win-probability hidden"></div>
+				<div class="pill hand-strength hidden"></div>
+			</div>
+			<h3 contenteditable="true"></h3>
+			<div class="chips">
+				<div class="stack-visual">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 0;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 1;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 2;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 3;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 4;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 5;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 6;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 7;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 8;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 9;">
+				</div>
+				<div class="stack-values">
+					<div class="total">2000</div>
+					<div class="bet">0</div>
+				</div>
+			</div>
+		</div>
+		<div class="seat" data-rotation="0">
+			<div class="hole-cards">
+				<img class="card" src="cards/1B.svg">
+				<img class="card" src="cards/1B.svg">
+				<div class="qr hidden">
+					<a class="qr-link" target="_blank" rel="noopener noreferrer" title="Open player view"></a>
+					<a class="remote-table-link hidden" target="_blank" rel="noopener noreferrer"
+						title="Open remote table">join via Link</a>
+				</div>
+				<img class="rotate" src="icons/rotate.svg">
+				<img class="blind-icons hidden dealer" src="icons/dealer.svg">
+				<img class="blind-icons hidden small-blind" src="icons/small-blind.svg">
+				<img class="blind-icons hidden big-blind" src="icons/big-blind.svg">
+				<img class="close" src="icons/close.svg">
+				<div class="winner-reaction hidden"></div>
+				<div class="pill win-probability hidden"></div>
+				<div class="pill hand-strength hidden"></div>
+			</div>
+			<h3 contenteditable="true"></h3>
+			<div class="chips">
+				<div class="stack-visual">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 0;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 1;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 2;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 3;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 4;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 5;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 6;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 7;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 8;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 9;">
+				</div>
+				<div class="stack-values">
+					<div class="total">2000</div>
+					<div class="bet">0</div>
+				</div>
+			</div>
+		</div>
+		<div class="seat" data-rotation="0">
+			<div class="hole-cards">
+				<img class="card" src="cards/1B.svg">
+				<img class="card" src="cards/1B.svg">
+				<div class="qr hidden">
+					<a class="qr-link" target="_blank" rel="noopener noreferrer" title="Open player view"></a>
+					<a class="remote-table-link hidden" target="_blank" rel="noopener noreferrer"
+						title="Open remote table">join via Link</a>
+				</div>
+				<img class="rotate" src="icons/rotate.svg">
+				<img class="blind-icons hidden dealer" src="icons/dealer.svg">
+				<img class="blind-icons hidden small-blind" src="icons/small-blind.svg">
+				<img class="blind-icons hidden big-blind" src="icons/big-blind.svg">
+				<img class="close" src="icons/close.svg">
+				<div class="winner-reaction hidden"></div>
+				<div class="pill win-probability hidden"></div>
+				<div class="pill hand-strength hidden"></div>
+			</div>
+			<h3 contenteditable="true"></h3>
+			<div class="chips">
+				<div class="stack-visual">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 0;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 1;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 2;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 3;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 4;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 5;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 6;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 7;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 8;">
+					<img src="icons/chip.svg" alt="" style="--stack-index: 9;">
+				</div>
+				<div class="stack-values">
+					<div class="total">2000</div>
+					<div class="bet">0</div>
+				</div>
+			</div>
+		</div>
+		<div id="table-middle">
+			<section class="infos">
+				<div id="pot">0</div>
+				<div id="notification">Enter your name at any seat, then start playing. Empty seats become bots.</div>
+			</section>
+			<section id="community-cards">
+				<!-- Suits: Diamonds, Hearts, Clubs, Spades -->
+				<div class="cardslot"><!-- <img src="cards/3D.svg"> --></div>
+				<div class="cardslot"><!-- <img src="cards/AS.svg"> --></div>
+				<div class="cardslot"><!-- <img src="cards/7H.svg"> --></div>
+				<div class="cardslot"></div>
+				<div class="cardslot"></div>
+			</section>
+			<section id="second-runout" class="hidden" aria-label="Second runout">
+				<span>Run 2</span>
+				<div class="cardslot"></div><div class="cardslot"></div><div class="cardslot"></div><div class="cardslot"></div><div class="cardslot"></div>
+			</section>
+			<section class="actions">
+				<div id="cash-setup" class="cash-setup">
+					<label>Big blind <input id="cash-big-blind" type="number" min="2" step="2" value="20"></label>
+					<span id="cash-small-blind-preview" class="cash-blind-preview">Small blind: 10</span>
+					<label>Buy-in (BB) <input id="cash-buy-in-bb" type="number" min="20" max="500" step="1" value="100"></label>
+					<label>Top up below (BB) <input id="cash-top-up-bb" type="number" min="0" step="1" value="40"></label>
+					<label class="cash-check"><input id="cash-auto-top-up" type="checkbox" checked> Auto top up</label>
+				</div>
+				<div id="new-round-controls" class="new-round-controls">
+					<button type="button" id="start-button" name="button"><span
+							id="start-button-label">Start Cash Session</span><span id="new-round-countdown" class="hidden"> in <span
+								id="new-round-countdown-value">20</span></span></button>
+					<button type="button" id="new-round-cancel-button" class="hidden" name="button">X</button>
+				</div>
+				<button type="button" id="fast-forward-button" class="hidden" name="button">Fast Forward</button>
+				<button type="button" id="fold-button" class="hidden" name="button">Fold</button>
+				<button type="button" id="action-button" class="hidden" name="button">Check</button>
+				<div id="amount-controls" class="amount-controls hidden">
+					<button type="button" id="amount-decrement-button" class="amount-step-button"
+						name="button">-</button>
+					<input type="range" id="amount-slider" name="amount" value="0" min="0" max="2000" step="10">
+					<output>0</output>
+					<button type="button" id="amount-increment-button" class="amount-step-button"
+						name="button">+</button>
+					<div id="pot-presets" class="pot-presets">
+						<span id="bet-preset-label">Pot size</span>
+						<button type="button" data-pot-percent="10">10%</button>
+						<button type="button" data-pot-percent="33">33%</button>
+						<button type="button" data-pot-percent="50">50%</button>
+						<button type="button" data-pot-percent="100">100%</button>
+						<button type="button" data-pot-percent="150">150%</button>
+						<button type="button" data-three-bet-multiple="3" class="hidden">3× open</button>
+						<button type="button" data-three-bet-multiple="4" class="hidden">4× open</button>
+						<button type="button" data-action-max>All-in</button>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+	<footer>
+		<div id="credit">
+			<span>Unofficial modified version based on <a href="https://github.com/Tehes/poker">Poker by Tehes</a>, originally created by Tino Sabetta.</span>
+		</div>
+		<div id="social">
+			<a href="https://github.com/Tehes/poker"><img alt="Github-Logo" src="social/github.svg" width="25"
+					height="25"></a>
+			<a href="https://www.threads.net/@tehes83"><img alt="Threads-Logo" src="social/threads.svg" width="25"
+					height="25"></a>
+		</div>
+	</footer>
+	<section id="account-gate" class="account-gate hidden">
+		<div class="account-card">
+			<h2>Cash Poker Trainer</h2>
+			<p id="account-gate-message">Sign in to keep your sessions and hands in sync across devices.</p>
+			<p class="account-origin-credit">Unofficial adaptation of <a href="https://github.com/Tehes/poker">Poker by Tehes</a>, originally created by Tino Sabetta.</p>
+			<button type="button" id="account-google-button">Continue with Google</button>
+			<form id="account-form">
+				<label>Email <input id="account-email" type="email" autocomplete="email" required></label>
+				<label>Password <input id="account-password" type="password" autocomplete="current-password" minlength="6" required></label>
+				<div class="account-actions">
+					<button type="submit" id="account-sign-in-button">Sign in</button>
+					<button type="button" id="account-create-button">Create account</button>
+					<button type="button" id="account-reset-button">Reset password</button>
+				</div>
+			</form>
+			<div id="account-verify-actions" class="account-actions hidden">
+				<button type="button" id="account-check-verify-button">I've verified my email</button>
+				<button type="button" id="account-resend-verify-button">Resend email</button>
+				<button type="button" id="account-switch-button">Switch account</button>
+			</div>
+		</div>
+	</section>
+	<div id="overlay-backdrop" class="hidden"></div>
+	<section id="runout-choice-overlay" class="overlay-panel resume-panel hidden" role="dialog" aria-modal="true" aria-labelledby="runout-choice-title" aria-describedby="runout-choice-details">
+		<div class="resume-content">
+			<h2 id="runout-choice-title">Run it once or twice?</h2>
+			<p id="runout-choice-details">All betting is complete. Two runs split each pot between two boards.</p>
+		</div>
+		<div class="resume-actions">
+			<button type="button" id="run-once-button">Run Once</button>
+			<button type="button" id="run-twice-button">Run Twice</button>
+		</div>
+	</section>
+	<section id="resume-game-overlay" class="overlay-panel resume-panel hidden">
+		<div class="resume-content">
+			<h2>Continue saved game?</h2>
+			<p>A saved poker game was found on this device. Continue it or start a fresh game.</p>
+		</div>
+		<div class="resume-actions">
+			<button type="button" id="resume-continue-button" name="button">Continue Game</button>
+			<button type="button" id="resume-new-button" name="button">New Game</button>
+		</div>
+	</section>
+	<section id="cash-top-up-overlay" class="overlay-panel resume-panel top-up-panel hidden" role="dialog" aria-modal="true" aria-labelledby="cash-top-up-title" aria-describedby="cash-top-up-details">
+		<div class="resume-content">
+			<h2 id="cash-top-up-title">You're out of chips</h2>
+			<p id="cash-top-up-details"></p>
+		</div>
+		<div class="resume-actions">
+			<button type="button" id="cash-top-up-later-button">Not now</button>
+			<button type="button" id="cash-top-up-confirm-button">Top up</button>
+		</div>
+	</section>
+	<section id="loss-export-overlay" class="overlay-panel resume-panel loss-export-panel hidden" role="dialog" aria-modal="true" aria-labelledby="loss-export-title" aria-describedby="loss-export-details">
+		<div class="resume-content">
+			<h2 id="loss-export-title">Review this hand?</h2>
+			<p id="loss-export-details"></p>
+		</div>
+		<div class="resume-actions">
+			<button type="button" id="loss-export-new-hand-button">New Hand</button>
+			<button type="button" id="loss-export-copy-button">Copy Text</button>
+		</div>
+	</section>
+	<section id="stats-overlay" class="overlay-panel stats-panel hidden">
+		<h2>Hand stats</h2>
+		<p class="stats-explainer">Your completed hands, grouped by mode, position, and starting stack. VPIP and PFR show hands made / hands with a preflop action opportunity. Posted blinds alone do not count. Practice results stay separate from free-table results; no strategy score is implied.</p>
+		<p class="stats-scroll-hint">Swipe the table sideways to see every column →</p>
+		<p id="stats-grouped-status" role="status">Loading saved hands…</p>
+		<div class="stats-grouped-wrap" tabindex="0" aria-label="Grouped hand statistics; scroll horizontally for more columns">
+			<table id="stats-grouped-table">
+				<thead><tr><th>Breakdown</th><th>Mode</th><th>Group</th><th>Hands</th><th>Hand Δ (BB)</th><th>VPIP</th><th>PFR</th></tr></thead>
+				<tbody id="stats-grouped-body"></tbody>
+			</table>
+		</div>
+		<details class="stats-current-details">
+			<summary>Current table totals</summary>
+			<p id="stats-practice-note" class="hidden">Similar sample results are separate from free-table cash results. There is no strategy score.</p>
+			<div class="stats-table-wrap">
+				<table id="stats-table">
+					<thead>
+						<tr>
+							<th>Player</th>
+							<th>Stack</th>
+							<th>Invested</th>
+							<th>Net</th>
+							<th>Hands</th>
+							<th>Won</th>
+							<th>Win %</th>
+							<th>Showdowns</th>
+							<th>SD Won</th>
+							<th>SD %</th>
+							<th>Folds</th>
+							<th>Pre</th>
+							<th>Post</th>
+							<th>All-ins</th>
+						</tr>
+					</thead>
+					<tbody id="stats-table-body"></tbody>
+				</table>
+			</div>
+		</details>
+		<button type="button" id="stats-close-button" class="overlay-close">Close</button>
+	</section>
+	<section id="hand-text-overlay" class="overlay-panel hand-text-panel hidden">
+		<h2>Hand review</h2>
+		<div class="hand-history-pickers">
+			<label>Session <select id="hand-session-select"></select></label>
+			<label>Hand <select id="hand-history-select"></select></label>
+		</div>
+		<div class="hand-view-tabs">
+			<button type="button" id="hand-replay-tab" class="selected" aria-pressed="true">Replay</button>
+			<button type="button" id="hand-text-tab" aria-pressed="false">Hand text</button>
+		</div>
+		<div id="hand-replay-view" class="hand-replay-view">
+			<div class="hand-replay-table">
+				<div class="hand-replay-felt">
+					<div class="hand-replay-center">
+						<div id="hand-replay-pot" class="hand-replay-pot"></div>
+						<div id="hand-replay-board" class="hand-replay-board"></div>
+					</div>
+					<div id="hand-replay-seats" class="hand-replay-seats"></div>
+				</div>
+			</div>
+			<div id="hand-replay-heading" class="hand-replay-heading">No completed hand yet.</div>
+			<div class="hand-replay-timeline">
+				<button type="button" id="hand-replay-prev" aria-label="Previous replay step">←</button>
+				<span id="hand-replay-count">0 / 0</span>
+				<input id="hand-replay-step" type="range" min="0" max="0" value="0" aria-label="Replay step">
+				<button type="button" id="hand-replay-next" aria-label="Next replay step">→</button>
+			</div>
+			<details class="hand-replay-log">
+				<summary>Action timeline</summary>
+				<ol id="hand-replay-events" class="hand-replay-events"></ol>
+			</details>
+			<details class="hand-replay-log">
+				<summary>Decision tools</summary>
+				<div class="hand-practice-tools">
+					<button type="button" id="hand-mark-decision-button" disabled>Mark this decision</button>
+					<button type="button" id="hand-start-practice-button" disabled>Practice similar samples</button>
+				</div>
+				<p id="hand-practice-status" class="hand-practice-status">Select one of your actions to mark a decision.</p>
+			</details>
+		</div>
+		<div id="hand-text-view" class="hand-text-view hidden">
+			<div class="hand-text-fields">
+				<label for="hand-text-tag">Tag</label>
+				<select id="hand-text-tag">
+					<option value="">None</option>
+					<option value="yellow">Yellow</option>
+					<option value="red">Red</option>
+					<option value="green">Green</option>
+				</select>
+				<label for="hand-text-note">Note</label>
+				<textarea id="hand-text-note" maxlength="2000" rows="3"></textarea>
+			</div>
+			<pre id="hand-text-preview">No completed hand yet.</pre>
+			<div class="hand-text-actions">
+				<button type="button" id="hand-text-copy-button">Copy Text</button>
+				<button type="button" id="hand-text-download-button">Download .txt</button>
+			</div>
+			<details class="hand-backup-tools">
+				<summary>JSON backup and restore</summary>
+				<div class="hand-text-actions">
+					<button type="button" id="cash-export-hands-button">Download Backup</button>
+					<button type="button" id="cash-import-hands-button">Restore Backup</button>
+					<input id="cash-import-hands-file" type="file" accept="application/json,.json" class="hidden">
+				</div>
+			</details>
+		</div>
+		<button type="button" id="hand-text-close-button" class="overlay-close" aria-label="Close hand review">×</button>
+	</section>
+	<section id="log-overlay" class="overlay-panel log-panel hidden">
+		<div class="log-list-wrap">
+			<div id="log-list"></div>
+		</div>
+		<button type="button" id="log-close-button" class="overlay-close">Close</button>
+	</section>
+	<section id="instructions-overlay" class="overlay-panel instructions-panel hidden">
+		<div class="instructions-content">
+			<h2>How this table works</h2>
+			<p>Enter your name to play against bots, or choose Watch 6 bots from Menu to spectate.</p>
+
+			<h3>Choose your setup</h3>
+			<div class="instructions-modes">
+				<article class="instructions-mode-card">
+					<h4>Solo vs Bots (1 human)</h4>
+					<p>One human plays directly on the main device. No QR scan is required and that player’s hole cards
+						remain visible on the table.</p>
+					<p class="instructions-note">Empty seats are filled by bots. This local version does not connect to the
+						original remote table service.</p>
+				</article>
+				<article class="instructions-mode-card">
+					<h4>Spectator / TV Poker (0 humans)</h4>
+					<p>All seats are filled by bots. The table runs automatically and all hole cards remain visible.</p>
+				</article>
+			</div>
+
+			<h3>Before you start</h3>
+			<ul class="instructions-list">
+				<li>Set an even big blind; the small blind is half of it. Choose a buy-in depth in BB and a between-hand top-up threshold.</li>
+				<li>Enter your name in one seat's name badge before starting a practice session.</li>
+				<li>Choose Menu → Watch 6 bots to start a spectator session.</li>
+				<li>Leave a seat empty if you want it filled by a bot.</li>
+				<li>Use the close icon to remove seats you do not need.</li>
+				<li>Keep 2–6 active seats. The table uses no rake.</li>
+			</ul>
+
+			<h3>During a hand</h3>
+			<ul class="instructions-list">
+				<li>Dealer and blinds are assigned automatically. Blind amounts stay fixed for the session.</li>
+				<li>The table uses standard poker action labels: Fold, Check, Call, Raise, All-in.</li>
+				<li>The slider stops at the largest amount another player can contest.</li>
+				<li>Pot size shortcuts set a bet or raise amount without submitting it. When facing a bet, they add the call before sizing the raise against the pot after calling; sizes below the legal minimum are unavailable.</li>
+				<li>Raises that are too small turn red while dragging and snap to the minimum legal raise when released.
+				</li>
+				<li>Start the next hand from the table. If you run out of chips with automatic top-up off, confirm the top-up in the prompt. Open Menu for other top-ups, pause or resume, and ending a session. During a hand, ending takes effect after that hand. Top-ups are separate from winnings.</li>
+			</ul>
+
+			<h3>Read the table</h3>
+			<ul class="instructions-list">
+				<li>The pot is shown in the center. Community cards are in the middle, and each seat displays its stack
+					and current round bet.</li>
+				<li>Dealer, small blind, and big blind icons indicate the current positions.</li>
+				<li>The notification bar is clickable and opens the hand log.</li>
+				<li>Open Menu for hand history, replay, statistics, and the action log. Statistics and the log become available after completed hands.</li>
+				<li>Win percentages and short hand labels only appear when hole cards are visible on the shared table,
+					such as in spectator mode or during all-in runouts.</li>
+			</ul>
+		</div>
+		<button type="button" id="instructions-close-button" class="overlay-close">Close</button>
+	</section>
+	<script defer src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+	<script type="module" src="./js/app.js"></script>
+	<script defer src="./js/localFileHelp.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+{
+  "spots": [
+    {
+      "depthBB": 20,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 984,
+        "check": 0,
+        "call": 0,
+        "raise": 248,
+        "allin": 94,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.4
+    },
+    {
+      "depthBB": 20,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 908,
+        "check": 0,
+        "call": 0,
+        "raise": 266,
+        "allin": 152,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.45
+    },
+    {
+      "depthBB": 20,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 333,
+        "call": 0,
+        "raise": 843,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 4.27
+    },
+    {
+      "depthBB": 100,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1110,
+        "check": 0,
+        "call": 122,
+        "raise": 94,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2
+    },
+    {
+      "depthBB": 100,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 860,
+        "check": 0,
+        "call": 184,
+        "raise": 282,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2
+    },
+    {
+      "depthBB": 100,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 333,
+        "call": 0,
+        "raise": 843,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 3.9
+    },
+    {
+      "depthBB": 200,
+      "spot": "six-max-utg",
+      "combos": 1326,
+      "actions": {
+        "fold": 1110,
+        "check": 0,
+        "call": 122,
+        "raise": 94,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2
+    },
+    {
+      "depthBB": 200,
+      "spot": "six-max-button",
+      "combos": 1326,
+      "actions": {
+        "fold": 860,
+        "check": 0,
+        "call": 184,
+        "raise": 282,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 2.2
+    },
+    {
+      "depthBB": 200,
+      "spot": "three-way-flop",
+      "combos": 1176,
+      "actions": {
+        "fold": 0,
+        "check": 333,
+        "call": 0,
+        "raise": 843,
+        "allin": 0,
+        "invalid": 0
+      },
+      "averageRaiseToBB": 3.9
+    }
+  ]
+}

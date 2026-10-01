@@ -1,0 +1,277 @@
+{
+  "seed": 20270301,
+  "blocks": 60,
+  "handsPerBlock": 100,
+  "results": [
+    {
+      "depthBB": 20,
+      "style": "tight-value",
+      "hands": 12000,
+      "bbPer100": 21.07,
+      "indicative95PercentInterval": [
+        15.54,
+        26.6
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 15178,
+      "candidateActions": {
+        "fold": 2869,
+        "check": 4667,
+        "call": 2455,
+        "raise": 5170,
+        "allin": 17
+      },
+      "netByBlind": {
+        "SB": {
+          "hands": 6000,
+          "netBB": 1628.6499999999999
+        },
+        "BB": {
+          "hands": 6000,
+          "netBB": 899.7999999999997
+        }
+      },
+      "preflopActionsByBlind": {
+        "SB": {
+          "fold": 2099,
+          "check": 0,
+          "call": 1514,
+          "raise": 2571,
+          "allin": 0
+        },
+        "BB": {
+          "fold": 207,
+          "check": 1123,
+          "call": 123,
+          "raise": 738,
+          "allin": 0
+        }
+      }
+    },
+    {
+      "depthBB": 20,
+      "style": "loose-pressure",
+      "hands": 12000,
+      "bbPer100": 0.9,
+      "indicative95PercentInterval": [
+        -5.36,
+        7.17
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 20452,
+      "candidateActions": {
+        "fold": 4274,
+        "check": 6986,
+        "call": 3254,
+        "raise": 5894,
+        "allin": 44
+      },
+      "netByBlind": {
+        "SB": {
+          "hands": 6000,
+          "netBB": 621.5
+        },
+        "BB": {
+          "hands": 6000,
+          "netBB": -512.9499999999997
+        }
+      },
+      "preflopActionsByBlind": {
+        "SB": {
+          "fold": 2237,
+          "check": 0,
+          "call": 1603,
+          "raise": 2522,
+          "allin": 0
+        },
+        "BB": {
+          "fold": 475,
+          "check": 1866,
+          "call": 295,
+          "raise": 1205,
+          "allin": 0
+        }
+      }
+    },
+    {
+      "depthBB": 100,
+      "style": "tight-value",
+      "hands": 12000,
+      "bbPer100": 20.07,
+      "indicative95PercentInterval": [
+        9.27,
+        30.86
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 16418,
+      "candidateActions": {
+        "fold": 2400,
+        "check": 5025,
+        "call": 3449,
+        "raise": 5541,
+        "allin": 3
+      },
+      "netByBlind": {
+        "SB": {
+          "hands": 6000,
+          "netBB": 1403.2500000000002
+        },
+        "BB": {
+          "hands": 6000,
+          "netBB": 1004.7500000000002
+        }
+      },
+      "preflopActionsByBlind": {
+        "SB": {
+          "fold": 1496,
+          "check": 0,
+          "call": 2241,
+          "raise": 2526,
+          "allin": 0
+        },
+        "BB": {
+          "fold": 215,
+          "check": 1115,
+          "call": 134,
+          "raise": 718,
+          "allin": 1
+        }
+      }
+    },
+    {
+      "depthBB": 100,
+      "style": "loose-pressure",
+      "hands": 12000,
+      "bbPer100": 5.96,
+      "indicative95PercentInterval": [
+        -7.07,
+        19
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 21310,
+      "candidateActions": {
+        "fold": 4063,
+        "check": 6798,
+        "call": 4268,
+        "raise": 6153,
+        "allin": 28
+      },
+      "netByBlind": {
+        "SB": {
+          "hands": 6000,
+          "netBB": 765.0999999999995
+        },
+        "BB": {
+          "hands": 6000,
+          "netBB": -49.74999999999979
+        }
+      },
+      "preflopActionsByBlind": {
+        "SB": {
+          "fold": 1692,
+          "check": 0,
+          "call": 2355,
+          "raise": 2490,
+          "allin": 0
+        },
+        "BB": {
+          "fold": 579,
+          "check": 1748,
+          "call": 323,
+          "raise": 1194,
+          "allin": 4
+        }
+      }
+    },
+    {
+      "depthBB": 200,
+      "style": "tight-value",
+      "hands": 12000,
+      "bbPer100": 23.13,
+      "indicative95PercentInterval": [
+        1.23,
+        45.02
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 16490,
+      "candidateActions": {
+        "fold": 2395,
+        "check": 5074,
+        "call": 3453,
+        "raise": 5564,
+        "allin": 4
+      },
+      "netByBlind": {
+        "SB": {
+          "hands": 6000,
+          "netBB": 1991.2
+        },
+        "BB": {
+          "hands": 6000,
+          "netBB": 784.2500000000003
+        }
+      },
+      "preflopActionsByBlind": {
+        "SB": {
+          "fold": 1485,
+          "check": 0,
+          "call": 2240,
+          "raise": 2539,
+          "allin": 0
+        },
+        "BB": {
+          "fold": 218,
+          "check": 1136,
+          "call": 127,
+          "raise": 694,
+          "allin": 0
+        }
+      }
+    },
+    {
+      "depthBB": 200,
+      "style": "loose-pressure",
+      "hands": 12000,
+      "bbPer100": 10.64,
+      "indicative95PercentInterval": [
+        -12.26,
+        33.55
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 21565,
+      "candidateActions": {
+        "fold": 4036,
+        "check": 6900,
+        "call": 4370,
+        "raise": 6239,
+        "allin": 20
+      },
+      "netByBlind": {
+        "SB": {
+          "hands": 6000,
+          "netBB": 1714.3
+        },
+        "BB": {
+          "hands": 6000,
+          "netBB": -437.25
+        }
+      },
+      "preflopActionsByBlind": {
+        "SB": {
+          "fold": 1658,
+          "check": 0,
+          "call": 2393,
+          "raise": 2482,
+          "allin": 0
+        },
+        "BB": {
+          "fold": 557,
+          "check": 1779,
+          "call": 343,
+          "raise": 1195,
+          "allin": 0
+        }
+      }
+    }
+  ]
+}

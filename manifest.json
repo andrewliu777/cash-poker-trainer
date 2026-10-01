@@ -1,0 +1,33 @@
+{
+    "short_name": "Cash Poker Trainer",
+    "name": "Cash Poker Trainer",
+    "description": "Unofficial adaptation of Poker by Tehes, originally created by Tino Sabetta.",
+    "id": "./",
+    "scope": "./",
+    "icons": [
+        {
+            "src": "icons/app-icon.svg",
+            "type": "image/svg+xml",
+            "sizes": "any"
+        },
+        {
+            "src": "icons/192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "icons/512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "icons/180x180.png",
+            "type": "image/png",
+            "sizes": "180x180"
+        }
+    ],
+    "start_url": "index.html",
+    "background_color": "#2e426b",
+    "display": "standalone",
+    "theme_color": "#2e426b"
+}

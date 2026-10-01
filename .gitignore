@@ -1,0 +1,4 @@
+tmp/
+.firebase/
+firebase-debug.log
+.DS_Store

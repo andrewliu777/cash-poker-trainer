@@ -1,0 +1,41 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "firebase-debug.log",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.test.js",
+      "*.command",
+      "api/**",
+      "scripts/**",
+      "evidence/**",
+      "README*",
+      "FIREBASE-RELEASE.md",
+      "LICENSE.txt",
+      "agents.md",
+      "deno.json",
+      "icons/*.ai",
+      "icons/source.txt"
+    ],
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "source": "service-worker.js",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "source": "js/training/firebaseConfig.js",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

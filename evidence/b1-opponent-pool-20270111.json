@@ -1,0 +1,121 @@
+{
+  "seed": 20270111,
+  "blocks": 30,
+  "handsPerBlock": 100,
+  "results": [
+    {
+      "depthBB": 20,
+      "style": "tight-value",
+      "hands": 6000,
+      "bbPer100": 20.94,
+      "indicative95PercentInterval": [
+        14.27,
+        27.6
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 6826,
+      "candidateActions": {
+        "fold": 1848,
+        "check": 1986,
+        "call": 741,
+        "raise": 2239,
+        "allin": 12
+      }
+    },
+    {
+      "depthBB": 20,
+      "style": "loose-pressure",
+      "hands": 6000,
+      "bbPer100": -12.12,
+      "indicative95PercentInterval": [
+        -24.13,
+        -0.1
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 9546,
+      "candidateActions": {
+        "fold": 2494,
+        "check": 3215,
+        "call": 1315,
+        "raise": 2504,
+        "allin": 18
+      }
+    },
+    {
+      "depthBB": 100,
+      "style": "tight-value",
+      "hands": 6000,
+      "bbPer100": -3.95,
+      "indicative95PercentInterval": [
+        -26.57,
+        18.68
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 7126,
+      "candidateActions": {
+        "fold": 1885,
+        "check": 2055,
+        "call": 888,
+        "raise": 2289,
+        "allin": 9
+      }
+    },
+    {
+      "depthBB": 100,
+      "style": "loose-pressure",
+      "hands": 6000,
+      "bbPer100": -37,
+      "indicative95PercentInterval": [
+        -63.65,
+        -10.34
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 9871,
+      "candidateActions": {
+        "fold": 2563,
+        "check": 3321,
+        "call": 1402,
+        "raise": 2567,
+        "allin": 18
+      }
+    },
+    {
+      "depthBB": 200,
+      "style": "tight-value",
+      "hands": 6000,
+      "bbPer100": -10.19,
+      "indicative95PercentInterval": [
+        -50.75,
+        30.38
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 7044,
+      "candidateActions": {
+        "fold": 1875,
+        "check": 1967,
+        "call": 901,
+        "raise": 2293,
+        "allin": 8
+      }
+    },
+    {
+      "depthBB": 200,
+      "style": "loose-pressure",
+      "hands": 6000,
+      "bbPer100": -31.65,
+      "indicative95PercentInterval": [
+        -70.4,
+        7.1
+      ],
+      "fallbackCount": 0,
+      "candidateDecisions": 9851,
+      "candidateActions": {
+        "fold": 2573,
+        "check": 3258,
+        "call": 1423,
+        "raise": 2587,
+        "allin": 10
+      }
+    }
+  ]
+}

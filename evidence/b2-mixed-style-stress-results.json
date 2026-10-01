@@ -1,0 +1,130 @@
+{
+  "depths": [
+    {
+      "depthBB": 20,
+      "hands": 1000,
+      "styles": [
+        "pressure",
+        "loose-passive",
+        "balanced",
+        "tight-value",
+        "pressure",
+        "loose-passive"
+      ],
+      "actions": {
+        "fold": 4520,
+        "check": 2274,
+        "call": 2073,
+        "raise": 2360,
+        "allin": 24
+      },
+      "invalidActions": 0,
+      "maxRaisesThisRound": 6
+    },
+    {
+      "depthBB": 40,
+      "hands": 1000,
+      "styles": [
+        "pressure",
+        "loose-passive",
+        "balanced",
+        "tight-value",
+        "pressure",
+        "loose-passive"
+      ],
+      "actions": {
+        "fold": 4537,
+        "check": 2262,
+        "call": 2137,
+        "raise": 2541,
+        "allin": 19
+      },
+      "invalidActions": 0,
+      "maxRaisesThisRound": 7
+    },
+    {
+      "depthBB": 60,
+      "hands": 1000,
+      "styles": [
+        "pressure",
+        "loose-passive",
+        "balanced",
+        "tight-value",
+        "pressure",
+        "loose-passive"
+      ],
+      "actions": {
+        "fold": 4597,
+        "check": 2043,
+        "call": 1946,
+        "raise": 2472,
+        "allin": 22
+      },
+      "invalidActions": 0,
+      "maxRaisesThisRound": 6
+    },
+    {
+      "depthBB": 100,
+      "hands": 1000,
+      "styles": [
+        "pressure",
+        "loose-passive",
+        "balanced",
+        "tight-value",
+        "pressure",
+        "loose-passive"
+      ],
+      "actions": {
+        "fold": 4543,
+        "check": 2266,
+        "call": 2129,
+        "raise": 2508,
+        "allin": 18
+      },
+      "invalidActions": 0,
+      "maxRaisesThisRound": 9
+    },
+    {
+      "depthBB": 150,
+      "hands": 1000,
+      "styles": [
+        "pressure",
+        "loose-passive",
+        "balanced",
+        "tight-value",
+        "pressure",
+        "loose-passive"
+      ],
+      "actions": {
+        "fold": 4633,
+        "check": 2062,
+        "call": 1958,
+        "raise": 2519,
+        "allin": 10
+      },
+      "invalidActions": 0,
+      "maxRaisesThisRound": 6
+    },
+    {
+      "depthBB": 200,
+      "hands": 1000,
+      "styles": [
+        "pressure",
+        "loose-passive",
+        "balanced",
+        "tight-value",
+        "pressure",
+        "loose-passive"
+      ],
+      "actions": {
+        "fold": 4538,
+        "check": 2399,
+        "call": 2300,
+        "raise": 2572,
+        "allin": 13
+      },
+      "invalidActions": 0,
+      "maxRaisesThisRound": 7
+    }
+  ]
+}

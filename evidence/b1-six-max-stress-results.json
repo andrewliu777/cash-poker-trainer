@@ -1,0 +1,148 @@
+{
+  "depths": [
+    {
+      "depthBB": 20,
+      "hands": 1000,
+      "actions": {
+        "fold": 4635,
+        "check": 1837,
+        "call": 1868,
+        "raise": 2464,
+        "allin": 31
+      },
+      "allInsByStreet": [
+        6,
+        3,
+        9,
+        13
+      ],
+      "maxRaisesByStreet": [
+        5,
+        4,
+        3,
+        4
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 40,
+      "hands": 1000,
+      "actions": {
+        "fold": 4686,
+        "check": 1741,
+        "call": 1754,
+        "raise": 2478,
+        "allin": 26
+      },
+      "allInsByStreet": [
+        7,
+        0,
+        6,
+        13
+      ],
+      "maxRaisesByStreet": [
+        4,
+        2,
+        8,
+        4
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 60,
+      "hands": 1000,
+      "actions": {
+        "fold": 4694,
+        "check": 1801,
+        "call": 1780,
+        "raise": 2503,
+        "allin": 28
+      },
+      "allInsByStreet": [
+        7,
+        2,
+        5,
+        14
+      ],
+      "maxRaisesByStreet": [
+        5,
+        6,
+        6,
+        6
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 100,
+      "hands": 1000,
+      "actions": {
+        "fold": 4704,
+        "check": 1805,
+        "call": 1852,
+        "raise": 2538,
+        "allin": 14
+      },
+      "allInsByStreet": [
+        3,
+        0,
+        4,
+        7
+      ],
+      "maxRaisesByStreet": [
+        4,
+        2,
+        4,
+        6
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 150,
+      "hands": 1000,
+      "actions": {
+        "fold": 4705,
+        "check": 1860,
+        "call": 1833,
+        "raise": 2560,
+        "allin": 10
+      },
+      "allInsByStreet": [
+        0,
+        1,
+        1,
+        8
+      ],
+      "maxRaisesByStreet": [
+        4,
+        5,
+        6,
+        3
+      ],
+      "invalidExamples": []
+    },
+    {
+      "depthBB": 200,
+      "hands": 1000,
+      "actions": {
+        "fold": 4688,
+        "check": 1823,
+        "call": 1895,
+        "raise": 2584,
+        "allin": 14
+      },
+      "allInsByStreet": [
+        0,
+        0,
+        0,
+        14
+      ],
+      "maxRaisesByStreet": [
+        4,
+        6,
+        6,
+        7
+      ],
+      "invalidExamples": []
+    }
+  ]
+}

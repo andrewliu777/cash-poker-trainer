@@ -1,0 +1,148 @@
+{
+  "seed": 20260929,
+  "blocks": 10,
+  "handsPerBlock": 100,
+  "results": [
+    {
+      "depthBB": 20,
+      "style": "station",
+      "hands": 2000,
+      "bbPer100": 165.22,
+      "indicative95PercentInterval": [
+        134.36,
+        196.07
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 6367,
+      "candidateRaises": 2205,
+      "candidateAllIns": 22
+    },
+    {
+      "depthBB": 20,
+      "style": "pressure",
+      "hands": 2000,
+      "bbPer100": 95.92,
+      "indicative95PercentInterval": [
+        17.43,
+        174.42
+      ],
+      "fallbackCount": 2,
+      "fallbackExamples": [
+        {
+          "blockIndex": 1,
+          "handId": 19,
+          "seatIndex": 1,
+          "phaseIndex": 2,
+          "chips": 690,
+          "roundBet": 0,
+          "currentBet": 0,
+          "lastRaise": 20,
+          "decision": {
+            "action": "call",
+            "amount": 0
+          },
+          "legal": {
+            "needToCall": 0,
+            "minAmount": 0,
+            "maxAmount": 0,
+            "stackAmount": 690,
+            "minRaise": 20,
+            "maxRaiseAmount": 0,
+            "canCheck": true,
+            "canRaise": false,
+            "chipUnit": 1
+          }
+        },
+        {
+          "blockIndex": 1,
+          "handId": 19,
+          "seatIndex": 1,
+          "phaseIndex": 3,
+          "chips": 690,
+          "roundBet": 0,
+          "currentBet": 0,
+          "lastRaise": 20,
+          "decision": {
+            "action": "call",
+            "amount": 0
+          },
+          "legal": {
+            "needToCall": 0,
+            "minAmount": 0,
+            "maxAmount": 0,
+            "stackAmount": 690,
+            "minRaise": 20,
+            "maxRaiseAmount": 0,
+            "canCheck": true,
+            "canRaise": false,
+            "chipUnit": 1
+          }
+        }
+      ],
+      "candidateDecisions": 4434,
+      "candidateRaises": 697,
+      "candidateAllIns": 91
+    },
+    {
+      "depthBB": 100,
+      "style": "station",
+      "hands": 2000,
+      "bbPer100": 175.37,
+      "indicative95PercentInterval": [
+        142.35,
+        208.39
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 6458,
+      "candidateRaises": 2260,
+      "candidateAllIns": 0
+    },
+    {
+      "depthBB": 100,
+      "style": "pressure",
+      "hands": 2000,
+      "bbPer100": 382.15,
+      "indicative95PercentInterval": [
+        273.27,
+        491.02
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 5242,
+      "candidateRaises": 869,
+      "candidateAllIns": 7
+    },
+    {
+      "depthBB": 200,
+      "style": "station",
+      "hands": 2000,
+      "bbPer100": 175.37,
+      "indicative95PercentInterval": [
+        142.35,
+        208.39
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 6458,
+      "candidateRaises": 2260,
+      "candidateAllIns": 0
+    },
+    {
+      "depthBB": 200,
+      "style": "pressure",
+      "hands": 2000,
+      "bbPer100": 485.01,
+      "indicative95PercentInterval": [
+        313.19,
+        656.84
+      ],
+      "fallbackCount": 0,
+      "fallbackExamples": [],
+      "candidateDecisions": 5126,
+      "candidateRaises": 898,
+      "candidateAllIns": 3
+    }
+  ]
+}

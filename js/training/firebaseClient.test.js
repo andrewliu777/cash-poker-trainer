@@ -1,0 +1,147 @@
+import { createFirebaseClient } from "./firebaseClient.js";
+
+function memoryStorage(initial = {}) {
+	const data = new Map(Object.entries(initial));
+	return {
+		getItem: (key) => data.get(key) ?? null,
+		setItem: (key, value) => { data.set(key, value); },
+		removeItem: (key) => { data.delete(key); },
+	};
+}
+
+function jsonResponse(body, status = 200) {
+	return new Response(JSON.stringify(body), {
+		status,
+		headers: { "Content-Type": "application/json" },
+	});
+}
+
+Deno.test("verified sign-in uses the ID token for owner-scoped Firestore reads", async () => {
+	const calls = [];
+	const storage = memoryStorage();
+	const client = createFirebaseClient({ storage, fetchImpl: async (url, options) => {
+		calls.push({ url, options });
+		if (url.includes("signInWithPassword")) {
+			return jsonResponse({ localId: "user-1", email: "a@example.com", idToken: "id-1",
+				refreshToken: "refresh-1", expiresIn: "3600" });
+		}
+		if (url.includes("accounts:lookup")) {
+			return jsonResponse({ users: [{ localId: "user-1", email: "a@example.com", emailVerified: true }] });
+		}
+		return jsonResponse({ fields: { payload: { stringValue: "test" } } });
+	} });
+	const session = await client.signIn("a@example.com", "password");
+	if (!session.verified || session.uid !== "user-1") {
+		throw new Error("Verified account identity was not retained");
+	}
+	const document = await client.getDocument("users/user-1/state/current");
+	if (document.fields.payload.stringValue !== "test" ||
+		calls[2].options.headers.Authorization !== "Bearer id-1" ||
+		!calls[2].url.includes("/users/user-1/state/current")) {
+		throw new Error("Firestore request did not use the account ID token and path");
+	}
+});
+
+Deno.test("Google sign-in joins the existing verified account and uses its Firebase token", async () => {
+	const previousFirebase = globalThis.firebase;
+	const calls = [];
+	let sdkSignedOut = false;
+	const auth = {
+		signInWithPopup: async () => ({ user: {
+			uid: "google-user", email: "google@example.com", refreshToken: "google-refresh",
+			getIdToken: async () => "google-id",
+		} }),
+		signOut: async () => { sdkSignedOut = true; },
+	};
+	const firebaseAuth = () => auth;
+	firebaseAuth.GoogleAuthProvider = class {};
+	globalThis.firebase = {
+		apps: [],
+		initializeApp: () => ({ auth: firebaseAuth }),
+		auth: firebaseAuth,
+	};
+	try {
+		const client = createFirebaseClient({ storage: memoryStorage(), fetchImpl: async (url, options) => {
+			calls.push({ url, options });
+			if (url.includes("accounts:lookup")) {
+				return jsonResponse({ users: [{ localId: "google-user", email: "google@example.com",
+					emailVerified: true }] });
+			}
+			return jsonResponse({ fields: {} });
+		} });
+		const session = await client.signInWithGoogle();
+		await client.getDocument("users/google-user/state/current");
+		if (!session.verified || session.uid !== "google-user" || !sdkSignedOut ||
+			calls[1].options.headers.Authorization !== "Bearer google-id") {
+			throw new Error("Google account was not bridged to the verified Firestore session");
+		}
+	} finally {
+		globalThis.firebase = previousFirebase;
+	}
+});
+
+Deno.test("Google redirect restores its account and clears the pending marker", async () => {
+	const previousFirebase = globalThis.firebase;
+	const previousSessionStorage = globalThis.sessionStorage;
+	const redirectStorage = memoryStorage({ "poker:google-redirect-pending:v1": "1" });
+	const auth = {
+		getRedirectResult: async () => ({ user: {
+			uid: "mobile-user", email: "mobile@example.com", refreshToken: "mobile-refresh",
+			getIdToken: async () => "mobile-id",
+		} }),
+		signOut: async () => {},
+	};
+	const firebaseAuth = () => auth;
+	globalThis.firebase = { apps: [], initializeApp: () => ({ auth: firebaseAuth }), auth: firebaseAuth };
+	globalThis.sessionStorage = redirectStorage;
+	try {
+		const client = createFirebaseClient({ storage: memoryStorage(), fetchImpl: async () =>
+			jsonResponse({ users: [{ localId: "mobile-user", email: "mobile@example.com", emailVerified: true }] }) });
+		const session = await client.restoreGoogleRedirect();
+		if (session.uid !== "mobile-user" || !session.verified ||
+			redirectStorage.getItem("poker:google-redirect-pending:v1") !== null) {
+			throw new Error("Google redirect result was not restored cleanly");
+		}
+	} finally {
+		globalThis.firebase = previousFirebase;
+		globalThis.sessionStorage = previousSessionStorage;
+	}
+});
+
+Deno.test("offline restore keeps only a previously verified account", async () => {
+	const session = { uid: "user-1", email: "a@example.com", idToken: "id-1", refreshToken: "refresh-1",
+		expiresAt: Date.now() + 1000, verified: true };
+	const storage = memoryStorage({ "poker:firebase-auth:v1": JSON.stringify(session) });
+	const client = createFirebaseClient({ storage, fetchImpl: async () => { throw new TypeError("Offline"); } });
+	const restored = await client.restore();
+	if (restored?.uid !== "user-1" || restored.offline !== true) {
+		throw new Error("Verified offline account was not restored");
+	}
+	const unverifiedStorage = memoryStorage({ "poker:firebase-auth:v1": JSON.stringify({ ...session, verified: false }) });
+	const unverifiedClient = createFirebaseClient({ storage: unverifiedStorage,
+		fetchImpl: async () => { throw new TypeError("Offline"); } });
+	if (await unverifiedClient.restore() !== null || unverifiedStorage.getItem("poker:firebase-auth:v1")) {
+		throw new Error("Unverified account was allowed to restore offline");
+	}
+});
+
+Deno.test("missing Firestore reads and missing writes have different outcomes", async () => {
+	const session = { uid: "user-1", email: "a@example.com", idToken: "id-1", refreshToken: "refresh-1",
+		expiresAt: Date.now() + 3600000, verified: true };
+	const client = createFirebaseClient({
+		storage: memoryStorage({ "poker:firebase-auth:v1": JSON.stringify(session) }),
+		fetchImpl: async () => jsonResponse({ error: { message: "NOT_FOUND" } }, 404),
+	});
+	if (await client.getDocument("users/user-1/state/current") !== null) {
+		throw new Error("Missing document read did not return null");
+	}
+	let writeFailed = false;
+	try {
+		await client.patchDocument("users/user-1/state/current", { payload: { stringValue: "x" } }, "time");
+	} catch (error) {
+		writeFailed = error.status === 404;
+	}
+	if (!writeFailed) {
+		throw new Error("Missing document write was silently accepted");
+	}
+});

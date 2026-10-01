@@ -1,4 +1,10 @@
-import { createFirebaseClient } from "./firebaseClient.js";
+import { createFirebaseClient as createClient } from "./firebaseClient.js";
+
+import { createFirebaseAppCheck } from "./firebaseAppCheck.js";
+
+function createFirebaseClient(options) {
+	return createClient({ appVerification: createFirebaseAppCheck({ siteKey: "" }), ...options });
+}
 
 function memoryStorage(initial = {}) {
 	const data = new Map(Object.entries(initial));
@@ -108,6 +114,50 @@ Deno.test("Google redirect restores its account and clears the pending marker", 
 	}
 });
 
+Deno.test("mobile web.app Google redirect uses its own Hosting auth handler", async () => {
+	const previousFirebase = globalThis.firebase;
+	const previousSessionStorage = globalThis.sessionStorage;
+	const previousLocation = Object.getOwnPropertyDescriptor(globalThis, "location");
+	const previousNavigator = Object.getOwnPropertyDescriptor(globalThis, "navigator");
+	let config;
+	let redirected = false;
+	const auth = { signInWithRedirect: async () => { redirected = true; } };
+	const firebaseAuth = () => auth;
+	firebaseAuth.GoogleAuthProvider = class {};
+	globalThis.firebase = {
+		apps: [],
+		initializeApp: (options) => { config = options; return { auth: firebaseAuth }; },
+		auth: firebaseAuth,
+	};
+	globalThis.sessionStorage = memoryStorage();
+	Object.defineProperty(globalThis, "location", {
+		configurable: true, value: { hostname: "cash-poker-trainer.web.app" },
+	});
+	Object.defineProperty(globalThis, "navigator", {
+		configurable: true, value: { userAgent: "Mozilla/5.0 (iPhone) CriOS/129.0" },
+	});
+	try {
+		const client = createFirebaseClient({ storage: memoryStorage() });
+		if (await client.signInWithGoogle() !== null || !redirected ||
+			config.authDomain !== "cash-poker-trainer.web.app") {
+			throw new Error("Mobile web.app sign-in did not use the same-origin redirect handler");
+		}
+	} finally {
+		globalThis.firebase = previousFirebase;
+		globalThis.sessionStorage = previousSessionStorage;
+		if (previousLocation) {
+			Object.defineProperty(globalThis, "location", previousLocation);
+		} else {
+			delete globalThis.location;
+		}
+		if (previousNavigator) {
+			Object.defineProperty(globalThis, "navigator", previousNavigator);
+		} else {
+			delete globalThis.navigator;
+		}
+	}
+});
+
 Deno.test("offline restore keeps only a previously verified account", async () => {
 	const session = { uid: "user-1", email: "a@example.com", idToken: "id-1", refreshToken: "refresh-1",
 		expiresAt: Date.now() + 1000, verified: true };
@@ -143,5 +193,59 @@ Deno.test("missing Firestore reads and missing writes have different outcomes", 
 	}
 	if (!writeFailed) {
 		throw new Error("Missing document write was silently accepted");
+	}
+});
+
+Deno.test("App Check accompanies authentication, refresh, and Firestore requests", async () => {
+	const calls = [];
+	const client = createFirebaseClient({
+		storage: memoryStorage(),
+		appVerification: { getToken: async () => "app-check-token" },
+		fetchImpl: async (url, options) => {
+			calls.push({ url, options });
+			if (url.includes("accounts:signUp")) {
+				return jsonResponse({ localId: "user-1", email: "a@example.com", idToken: "id-1",
+					refreshToken: "refresh-1", expiresIn: "0" });
+			}
+			if (url.includes("securetoken")) {
+				return jsonResponse({ user_id: "user-1", id_token: "id-2", refresh_token: "refresh-2",
+					expires_in: "3600" });
+			}
+			return jsonResponse({});
+		},
+	});
+	await client.signUp("a@example.com", "password");
+	await client.sendPasswordReset("a@example.com");
+	await client.getDocument("users/user-1/state/current");
+	await client.patchDocument("users/user-1/state/current", { payload: { stringValue: "test" } }, "time");
+	if (calls.length !== 5 || calls.some(({ options }) =>
+		options.headers["X-Firebase-AppCheck"] !== "app-check-token") ||
+		calls[3].options.headers.Authorization !== "Bearer id-2") {
+		throw new Error("An authenticated, refresh, or reset request lost App Check or account identity");
+	}
+});
+
+Deno.test("failed app verification sends no cloud request and preserves verified offline data", async () => {
+	let calls = 0;
+	const session = { uid: "user-1", idToken: "id-1", refreshToken: "refresh-1", verified: true };
+	const storage = memoryStorage({ "poker:firebase-auth:v1": JSON.stringify(session) });
+	const client = createFirebaseClient({
+		storage,
+		appVerification: { getToken: async () => {
+			const error = new Error("Attestation failed");
+			error.code = "APP_CHECK_UNAVAILABLE";
+			throw error;
+		} },
+		fetchImpl: async () => { calls++; return jsonResponse({}); },
+	});
+	let failed = false;
+	try {
+		await client.sendPasswordReset("a@example.com");
+	} catch (error) {
+		failed = error.code === "APP_CHECK_UNAVAILABLE";
+	}
+	const restored = await client.restore();
+	if (!failed || calls !== 0 || !restored?.offline || !storage.getItem("poker:firebase-auth:v1")) {
+		throw new Error("Failed app verification allowed a request or discarded the local verified account");
 	}
 });

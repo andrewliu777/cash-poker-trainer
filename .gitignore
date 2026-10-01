@@ -2,3 +2,16 @@ tmp/
 .firebase/
 firebase-debug.log
 .DS_Store
+
+# Private local credentials. Firebase Web config is intentionally public.
+.env
+.env.*
+!.env.example
+.secrets/
+*service-account*.json
+*serviceAccount*.json
+credentials.json
+*.pem
+*.key
+*.p12
+*.pfx

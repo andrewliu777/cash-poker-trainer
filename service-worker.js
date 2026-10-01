@@ -59,6 +59,7 @@ const CORE_ASSETS = [
 	"./js/shared/seatObservation.js",
 	"./js/training/handStore.js",
 	"./js/training/firebaseConfig.js",
+	"./js/training/firebaseAppCheck.js",
 	"./js/training/firebaseClient.js",
 	"./js/training/cloudSync.js",
 	"./js/training/similarSpot.js",

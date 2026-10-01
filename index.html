@@ -10,7 +10,7 @@
 	<meta name="theme-color" content="#2e426b" />
 	<meta name="robots" content="noindex, nofollow">
 	<meta http-equiv="Content-Security-Policy"
-		content="default-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://*.firebaseapp.com; font-src 'self'; img-src 'self' data: blob:; script-src 'self' https://www.gstatic.com https://apis.google.com; frame-src https://*.firebaseapp.com https://accounts.google.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.firebaseapp.com">
+		content="default-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://firebaseappcheck.googleapis.com https://www.google.com https://*.firebaseapp.com; font-src 'self'; img-src 'self' data: blob:; script-src 'self' https://www.gstatic.com https://apis.google.com https://www.google.com; frame-src 'self' https://*.firebaseapp.com https://accounts.google.com https://www.google.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.firebaseapp.com">
 
 	<!-- SEO -->
 	<meta property="og:description"
@@ -631,6 +631,7 @@
 		<button type="button" id="instructions-close-button" class="overlay-close">Close</button>
 	</section>
 	<script defer src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+	<script defer src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check-compat.js"></script>
 	<script defer src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
 	<script type="module" src="./js/app.js"></script>
 	<script defer src="./js/localFileHelp.js"></script>

@@ -1,7 +1,10 @@
 import { FIREBASE_PROJECT_ID, FIREBASE_WEB_API_KEY } from "./firebaseConfig.js";
+import { createFirebaseAppCheck } from "./firebaseAppCheck.js";
 
 const AUTH_STORAGE_KEY = "poker:firebase-auth:v1";
 const GOOGLE_REDIRECT_KEY = "poker:google-redirect-pending:v1";
+const FIREBASE_AUTH_DOMAIN = `${FIREBASE_PROJECT_ID}.firebaseapp.com`;
+const WEB_APP_DOMAIN = `${FIREBASE_PROJECT_ID}.web.app`;
 const AUTH_BASE = "https://identitytoolkit.googleapis.com/v1/accounts:";
 const REFRESH_BASE = "https://securetoken.googleapis.com/v1/token";
 const FIRESTORE_BASE = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
@@ -37,7 +40,11 @@ function readSession(storage) {
 	}
 }
 
-export function createFirebaseClient({ fetchImpl = fetch, storage = localStorage } = {}) {
+export function createFirebaseClient({
+	fetchImpl = fetch,
+	storage = localStorage,
+	appVerification = createFirebaseAppCheck(),
+} = {}) {
 	let session = readSession(storage);
 	let googleAuth = null;
 
@@ -46,21 +53,21 @@ export function createFirebaseClient({ fetchImpl = fetch, storage = localStorage
 			throw new Error("Google sign-in could not load. Check your connection and try again.");
 		}
 		if (!googleAuth) {
-			const app = globalThis.firebase.apps.length ? globalThis.firebase.app() :
-				globalThis.firebase.initializeApp({
-					apiKey: FIREBASE_WEB_API_KEY,
-					authDomain: `${FIREBASE_PROJECT_ID}.firebaseapp.com`,
-					projectId: FIREBASE_PROJECT_ID,
-				});
+			const app = appVerification.getApp();
 			googleAuth = app.auth();
 		}
 		return googleAuth;
 	}
 
+	async function verificationHeaders() {
+		const token = await appVerification.getToken();
+		return token ? { "X-Firebase-AppCheck": token } : {};
+	}
+
 	async function authRequest(method, data) {
 		const response = await fetchImpl(`${AUTH_BASE}${method}?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`, {
 			method: "POST",
-			headers: { "Content-Type": "application/json" },
+			headers: { "Content-Type": "application/json", ...await verificationHeaders() },
 			body: JSON.stringify(data),
 			cache: "no-store",
 		});
@@ -89,7 +96,7 @@ export function createFirebaseClient({ fetchImpl = fetch, storage = localStorage
 		});
 		const response = await fetchImpl(`${REFRESH_BASE}?key=${encodeURIComponent(FIREBASE_WEB_API_KEY)}`, {
 			method: "POST",
-			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			headers: { "Content-Type": "application/x-www-form-urlencoded", ...await verificationHeaders() },
 			body,
 			cache: "no-store",
 		});
@@ -156,6 +163,7 @@ export function createFirebaseClient({ fetchImpl = fetch, storage = localStorage
 			...options,
 			headers: {
 				"Authorization": `Bearer ${token}`,
+				...await verificationHeaders(),
 				...(options.body ? { "Content-Type": "application/json" } : {}),
 			},
 			cache: "no-store",
@@ -181,7 +189,7 @@ export function createFirebaseClient({ fetchImpl = fetch, storage = localStorage
 			const auth = getGoogleAuth();
 			const provider = new globalThis.firebase.auth.GoogleAuthProvider();
 			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) &&
-				globalThis.location.hostname === `${FIREBASE_PROJECT_ID}.firebaseapp.com`) {
+				[FIREBASE_AUTH_DOMAIN, WEB_APP_DOMAIN].includes(globalThis.location.hostname)) {
 				sessionStorage.setItem(GOOGLE_REDIRECT_KEY, "1");
 				try {
 					await auth.signInWithRedirect(provider);
@@ -226,7 +234,7 @@ export function createFirebaseClient({ fetchImpl = fetch, storage = localStorage
 				await refresh();
 				return await lookup();
 			} catch (error) {
-				if (error instanceof TypeError && session?.verified) {
+				if ((error instanceof TypeError || error.code === "APP_CHECK_UNAVAILABLE") && session?.verified) {
 					return { ...session, offline: true };
 				}
 				storage.removeItem(AUTH_STORAGE_KEY);

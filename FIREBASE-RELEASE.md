@@ -1,6 +1,6 @@
 # Firebase release
 
-The project has no build step. Firebase Hosting serves the static files in this directory. A local edit stays local until you deploy it. After a successful deploy, the public `PROJECT_ID.web.app` site uses the new files; anyone with the link can create an account, and Firestore rules keep each account's records private.
+The project has no build step. Firebase Hosting serves the static files in this directory. A local edit stays local until you deploy it. The published sites are [cash-poker-trainer.web.app](https://cash-poker-trainer.web.app) and [cash-poker-trainer.firebaseapp.com](https://cash-poker-trainer.firebaseapp.com). Anyone with the link can create an account; Firestore rules keep each account's records private.
 
 ## Local development
 
@@ -14,7 +14,7 @@ On a Mac with Python 3, double-click `start-local.command` or run `python3 -m ht
 4. In this directory, run:
 
    ```sh
-   firebase deploy --only hosting,firestore:rules --project PROJECT_ID
+   firebase deploy --only hosting,firestore:rules --project cash-poker-trainer
    ```
 
 The first deployment must include the rules. Check that another signed-in account cannot read documents under `users/{your_uid}/hands` or `users/{your_uid}/state` before sharing the link.
@@ -24,7 +24,7 @@ The first deployment must include the rules. Check that another signed-in accoun
 From this directory:
 
 ```sh
-firebase deploy --only hosting --project PROJECT_ID
+firebase deploy --only hosting --project cash-poker-trainer
 ```
 
 To update the database rules, include `firestore:rules` again. A GitHub-based automatic deploy is optional; this repository does not require it.
@@ -32,13 +32,13 @@ To update the database rules, include `firestore:rules` again. A GitHub-based au
 ## Data behavior
 
 - The app requires a verified email account when Firebase is configured. Email/password accounts use an email verification link; Google accounts are verified by the provider. On a previously signed-in device, the saved account can still play offline; pending changes sync when the connection returns and **Sync now** is used.
-- On phones, use the `PROJECT_ID.firebaseapp.com` Hosting address for Google redirect sign-in. Other Hosting addresses use the Google popup flow.
+- On phones, use the `cash-poker-trainer.firebaseapp.com` Hosting address for Google redirect sign-in. Other Hosting addresses use the Google popup flow.
 - Completed hands and notes are stored under the account's Firestore path. Active sessions are synced separately for the free table and each practice link. If two devices edit the same active session, the Account menu asks which copy to keep.
 - Old unscoped browser data stays on the device. Each account can explicitly import it once. A sign-out does not delete local account data, so the same account can resume offline later.
 - Export hand histories regularly as a backup. A Firestore document cannot exceed 1 MiB; unusually large single-hand records will fail to sync and show an error in the Account menu.
 - Different devices share data through Firestore when online. Separate users on the same browser should use separate accounts. Browser preferences, such as sound and bot pace, remain local to each device.
 
-Real sign-in, rules, and two-device sync need a Firebase project to test; placeholder configuration leaves the existing local-only app working.
+Verify email/password, Google sign-in, two-device sync, and cross-account isolation with real accounts before relying on cloud copies alone.
 
 Firebase references: [Hosting quickstart](https://firebase.google.com/docs/hosting/quickstart/),
 [CLI setup](https://firebase.google.com/docs/cli),

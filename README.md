@@ -4,6 +4,8 @@
 
 Cash Poker Trainer is a browser-based no-limit Texas Hold'em trainer for 2–6 seats. Play against rule-based bots or watch a six-bot table. The chips are for practice; there is no rake or real-money play.
 
+**[Play Cash Poker Trainer](https://cash-poker-trainer.web.app)**
+
 ## What you can do
 
 - **Play cash sessions:** choose the big blind, buy-in depth and top-up settings. The small blind is half the big blind. Bot pace and sound are adjustable during play.
@@ -16,7 +18,7 @@ The bots use heuristics. **This app does not contain a solver or grade decisions
 
 ## Play on a phone
 
-The hosted web app can be opened in a phone browser without leaving a computer running. On iPhone, open it in Safari and choose **Share → Add to Home Screen**. On Android, use the browser's install or home-screen option. After the first online load, the app's cached assets can open offline; account changes sync when a connection returns.
+The hosted web app can be opened in a phone browser without leaving a computer running. For Google sign-in on a phone, use the equivalent [firebaseapp.com address](https://cash-poker-trainer.firebaseapp.com), which uses the mobile redirect flow. On iPhone, open it in Safari and choose **Share → Add to Home Screen**. On Android, use the browser's install or home-screen option. After the first online load, the app's cached assets can open offline; account changes sync when a connection returns.
 
 Sign in to the **same Firebase account** on each device to share records. Email/password and Google accounts are identified by Firebase user ID; using the same email with two sign-in methods does not by itself guarantee that they are linked. Browser preferences such as sound and bot pace stay on each device. If two devices change the same active session, the app asks which copy to keep.
 

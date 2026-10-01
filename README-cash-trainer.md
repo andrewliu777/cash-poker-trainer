@@ -10,7 +10,7 @@ practice, not strategy graders.
 
 ## Play
 
-1. Open the published Cash Poker Trainer website and sign in with Google or email/password.
+1. Open [Cash Poker Trainer](https://cash-poker-trainer.web.app) and sign in with Google or email/password.
    A new email/password account must verify its address before play.
 2. Remove unwanted seats with the seat close controls. Enter your name at one seat and press
    **Start Cash Session** to play; unnamed seats become bots. Starting without a name asks you to
@@ -95,16 +95,16 @@ them across devices through Firestore. See [FIREBASE-RELEASE.md](FIREBASE-RELEAS
 deployment, and conflict handling. Export a JSON backup before clearing site data. Complete
 audit data and unrevealed opponent cards are not included in the hero-view backup.
 
-## Phone release status
+## Play on a phone
 
-The table has a phone layout and an installable web app manifest. A hosted HTTPS link will let a
-phone open it without the development computer running. On iPhone, open that link in Safari and
+The table has a phone layout and an installable web app manifest. Open the
+[Firebase Hosting address](https://cash-poker-trainer.firebaseapp.com) for Google sign-in on a phone.
+On iPhone, open that link in Safari and
 choose **Share → Add to Home Screen**; on Android, use the browser's install or home-screen option.
 The app can continue offline after its assets have been cached on that device.
 
-Account login and cross-device sync are implemented behind Firebase configuration. Until a Firebase
-project is configured, deployed, and tested on two devices, browser storage remains isolated by browser profile. The
-JSON backup can move completed hand histories manually but does not carry a live session.
+Account login and cross-device sync use Firebase. Sign in to the same account on both devices;
+completed hands and saved sessions sync when online. Export a JSON backup before clearing site data.
 
 ## Scope
 
